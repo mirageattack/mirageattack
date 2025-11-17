@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VLC media player - Official download - VideoLAN</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    header {
+      background-color: #ff6b35;
+      color: white;
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 3em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .vlc-logo {
+      width: 120px;
+      height: auto;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      display: flex;
+      gap: 20px;
+    }
+
+    .main {
+      flex: 2;
+    }
+
+    .sidebar {
+      flex: 1;
+      background-color: white;
+      width: 300px;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .intro {
+      background-color: white;
+      padding: 40px;
+      text-align: center;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+
+    .intro h2 {
+      color: #ff6b35;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .intro .vlc-icon {
+      width: 80px;
+      height: auto;
+    }
+
+    .intro p {
+      font-size: 1.1em;
+      max-width: 800px;
+      margin: 0 auto 20px;
+    }
+
+    .features {
+      background-color: white;
+      padding: 40px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+
+    .features h3 {
+      color: #ff6b35;
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 2em;
+    }
+
+    .features ul {
+      list-style-type: none;
+      padding: 0;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .features li {
+      padding: 15px 0;
+      border-bottom: 1px solid #eee;
+      font-size: 1.1em;
+    }
+
+    .features li:before {
+      content: "✓ ";
+      color: #ff6b35;
+      font-weight: bold;
+      font-size: 1.2em;
+    }
+
+    .system-req {
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .system-req h3 {
+      color: #ff6b35;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    th,
+    td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f4f4f4;
+    }
+
+    .download-buttons {
+      margin: 20px 0;
+    }
+
+    .btn-download {
+      background-color: #ff6b35;
+      color: white;
+      padding: 12px 20px;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: bold;
+      display: block;
+      margin-bottom: 10px;
+      transition: background-color 0.3s;
+      text-align: center;
+    }
+
+    .btn-download:hover {
+      background-color: #e55a2b;
+    }
+
+    .btn-ad {
+      background-color: #ff4500;
+      color: white;
+      padding: 12px 20px;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: bold;
+      display: block;
+      margin-bottom: 10px;
+      transition: background-color 0.3s;
+      text-align: center;
+      border: 2px solid #ff4500;
+    }
+
+    .btn-ad:hover {
+      background-color: #cc3700;
+      border-color: #cc3700;
+    }
+
+    footer {
+      background-color: #333;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      margin-top: 40px;
+    }
+
+    .version-info {
+      text-align: center;
+      margin: 20px 0;
+      font-weight: bold;
+      color: #ff6b35;
+      font-size: 1.1em;
+    }
+
+    .download-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      color: white;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .download-overlay__content {
+      background: #222;
+      padding: 30px 40px;
+      border-radius: 10px;
+      border: 2px solid #ff6b35;
+      max-width: 90%;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.4);
+    }
+
+    .download-overlay__content p {
+      margin: 0;
+    }
+
+    .download-overlay__message {
+      font-size: 1.5em;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .download-overlay__sub {
+      font-size: 0.95em;
+      color: #ffd5c2;
+      margin-top: 12px;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+      }
+
+      header h1 {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .intro h2 {
+        flex-direction: column;
+        gap: 5px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>
+      <img src="https://upload.wikimedia.org/wikipedia/commons/3/38/VLC_icon.png" alt="VLC Cone Logo" class="vlc-logo">
+      VLC media player
+    </h1>
+    <p>The best Open Source player</p>
+  </header>
+
+  <div class="container">
+    <div class="main">
+      <div class="intro">
+        <h2>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/3/38/VLC_icon.png" alt="VLC Icon" class="vlc-icon">
+          Official download of VLC media player
+        </h2>
+        <p>VLC is a free and open source cross-platform multimedia player and framework that plays most multimedia files
+          as well as DVD, Audio CD, VCD, and various streaming protocols.</p>
+        <p class="version-info">Latest Stable Version - 3.0.21 - Released November 2025</p>
+        <p>Simple, fast and powerful media player. No spyware, no ads, no user tracking. Join our community of 500
+          million monthly users and enjoy unrestricted playback of your favorite media.</p>
+      </div>
+
+      <div class="features">
+        <h3>Simple, fast and powerful</h3>
+        <ul>
+          <li>Plays everything: Files, Discs, Webcams, Devices and Streams</li>
+          <li>Plays most codecs with no codec packs needed: MPEG-2, MPEG-4, H.264, MKV, WebM, WMV, MP3...</li>
+          <li>Runs on all platforms: Windows, Linux, Mac OS X, Unix, iOS, Android...</li>
+          <li>Completely Free: no spyware, no ads and no user tracking</li>
+          <li>Convert, compress, download subtitles, and more advanced features for power users</li>
+          <li>Low resource usage, hardware acceleration support, and customizable interface</li>
+        </ul>
+      </div>
+
+      <div class="system-req">
+        <h3>System Requirements</h3>
+        <table>
+          <tr>
+            <th>Platform</th>
+            <th>Minimum Requirements</th>
+          </tr>
+          <tr>
+            <td>Windows</td>
+            <td>Windows 10 or later, 512 MB RAM</td>
+          </tr>
+          <tr>
+            <td>Mac</td>
+            <td>macOS 10.7.5 or later, Intel 64-bit processor</td>
+          </tr>
+          <tr>
+            <td>Linux</td>
+            <td>Most distributions, 512 MB RAM</td>
+          </tr>
+          <tr>
+            <td>Android</td>
+            <td>Android 2.3 or later</td>
+          </tr>
+          <tr>
+            <td>iOS</td>
+            <td>iOS 9.0 or later</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="sidebar" style="background-color: #d0d0d0;">
+      <h4>Download VLC</h4>
+      <div style="width: 300px; border-radius: 6px; background-color: white; margin-bottom: 15px;" id="bright-container">
+        <div style="width: 300px; height: 50px;" id="bright-layer">
+        </div>
+      </div>
+      <div style="width: 300px; border-radius: 6px; background-color: white; margin-bottom: 15px;" id="bright-container">
+        <div style="width: 300px; height: 50px;" id="bright-layer-1"></div>
+      </div>
+      <div style="width: 300px; border-radius: 6px; background-color: white; margin-bottom: 15px;" id="bright-container">
+        <div style="width: 300px; height: 50px;" id="bright-layer-2"></div>
+      </div>
+      <div style="width: 300px; border-radius: 6px; background-color: white; margin-bottom: 15px;" id="bright-container">
+        <div style="width: 300px; height: 50px;" id="bright-layer-3"></div>
+      </div>
+
+      <!-- <div class="download-buttons">
+        <a href="#" class="btn-download" onclick="alert('Redirecting to Windows download...')">Windows</a>
+        <a href="#" class="btn-download" onclick="alert('Redirecting to Mac download...')">Mac</a>
+        <a href="#" class="btn-download" onclick="alert('Redirecting to Linux download...')">Linux</a>
+      </div> -->
+      <h4>What's New in 3.0.21</h4>
+      <ul>
+        <li>Improved codec support for AV1</li>
+        <li>Better hardware acceleration</li>
+        <li>Enhanced subtitle handling</li>
+        <li>Bug fixes for stability</li>
+      </ul>
+      <h4>Support</h4>
+      <p><a href="#">FAQ</a> | <a href="#">Forum</a> | <a href="#">Report Issue</a></p>
+      <p><a href="#">Learn more about features</a></p>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 VideoLAN. A project and a non-profit organization.</p>
+    <p><a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a> | <a href="#">Donate</a></p>
+  </footer>
+
+  <div id="download-overlay" class="download-overlay" aria-hidden="true">
+    <div class="download-overlay__content">
+      <p id="download-overlay-message" class="download-overlay__message"></p>
+      <p class="download-overlay__sub">Refresh the page to continue.</p>
+    </div>
+  </div>
+</body>
+
+
+<script>
+
+  // HTML escape function
+  function escapeHtml(text) {
+    return text
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
+  // Generate SVG mask for text
+  function generateTextSVG(text) {
+    const maxCharsPerLine = 30;
+    const baseWidth = 1800;
+    const baseHeight = 900;
+    const charWidthFactor = 0.65;
+    const lineHeightEm = 1.2;
+    const lines = [];
+
+    // Split text into lines
+    for (let i = 0; i < text.length; i += maxCharsPerLine) {
+      lines.push(text.substring(i, i + maxCharsPerLine));
+    }
+
+    const longestLine = lines.reduce((m, l) => Math.max(m, l.length), 0);
+
+    // Calculate font size - adjusted for better scaling with more padding
+    const fontSizeByHeight = baseHeight / (lines.length * 1.5);
+    const fontSizeByWidth = (baseWidth * 0.65) / (longestLine * charWidthFactor); // Reduced to 0.65 for much more padding
+    const fontScale = 2.5; // Default scale, safe to override
+    let fontSize = Math.floor(Math.min(fontSizeByHeight, fontSizeByWidth, 120) * fontScale);
+    fontSize = Math.max(fontSize, 25);
+
+    // Calculate SVG dimensions based on actual rendered text size so large scales don't clip
+    const padding = 300;
+    const textWidth = longestLine * fontSize * charWidthFactor;
+    const textHeight = lines.length * fontSize * lineHeightEm;
+    const svgWidth = Math.max(baseWidth, Math.ceil(textWidth + padding));
+    const svgHeight = Math.max(baseHeight, Math.ceil(textHeight + padding));
+    const svgViewBox = `0 0 ${svgWidth} ${svgHeight}`;
+    const svgCenterX = svgWidth / 2;
+    const svgCenterY = svgHeight / 2;
+
+    // Generate tspan elements
+    const firstDy = `-${((lines.length - 1) * 0.6).toFixed(2)}em`;
+    const tspanElements = lines.map((line, idx) => {
+      const dy = idx === 0 ? firstDy : '1.2em';
+      const escapedLine = escapeHtml(line);
+      return `<tspan x="${svgCenterX}" dy="${dy}">${escapedLine}</tspan>`;
+    }).join('');
+
+    const svgText = `
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="${svgViewBox}" preserveAspectRatio="xMidYMid meet">
+                    <style>
+                        .text-content {
+                            font-family: 'Arial Black', 'Microsoft YaHei', 'SimHei', sans-serif;
+                            font-size: ${fontSize}px;
+                            font-weight: 900;
+                            fill: white;
+                        }
+                    </style>
+                    <text text-anchor="middle" dominant-baseline="middle" class="text-content" x="${svgCenterX}" y="${svgCenterY}">
+                        ${tspanElements}
+                    </text>
+                </svg>
+            `;
+
+    return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svgText)}`;
+  }
+
+
+  const downloadOverlay = document.getElementById('download-overlay');
+  const downloadOverlayMessage = document.getElementById('download-overlay-message');
+  let overlayActive = false;
+
+  function updateDisplay(text, layerId) {
+    const svgMask = generateTextSVG(text);
+    const brightLayer = document.getElementById(layerId);
+    if (!brightLayer) {
+      return;
+    }
+
+    const brightContainer = brightLayer.parentElement;
+    if (brightContainer) {
+      brightContainer.style.backgroundColor = '#ffffff';
+    }
+
+    brightLayer.style.backgroundImage = `url('white_hdr_3000nits.avif')`;
+    brightLayer.style.mask = `url("${svgMask}")`;
+    brightLayer.style.webkitMask = `url("${svgMask}")`;
+    brightLayer.style.maskSize = 'contain';
+    brightLayer.style.maskRepeat = 'no-repeat';
+    brightLayer.style.maskPosition = 'center';
+    brightLayer.style.webkitMaskSize = 'contain';
+    brightLayer.style.webkitMaskRepeat = 'no-repeat';
+    brightLayer.style.webkitMaskPosition = 'center';
+    brightLayer.style.opacity = '1';
+  }
+
+  function showDownloadNotification(platform) {
+    if (!downloadOverlay || !downloadOverlayMessage || overlayActive) {
+      return;
+    }
+
+    downloadOverlayMessage.textContent = `${platform} VLC Downloading...`;
+    downloadOverlay.style.display = 'flex';
+    downloadOverlay.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    overlayActive = true;
+  }
+
+  function attachDownloadHandler(layerId, platformMessage) {
+    const element = document.getElementById(layerId);
+    if (!element) {
+      return;
+    }
+
+    element.style.cursor = 'pointer';
+    element.addEventListener('click', function (event) {
+      event.preventDefault();
+      showDownloadNotification(platformMessage);
+    });
+  }
+
+  function display() {
+    const layers = [
+      { text: "Get Malicious App", id: "bright-layer", message: "Malicious" },
+      { text: "Android", id: "bright-layer-1", message: "Android" },
+      { text: "iOS", id: "bright-layer-2", message: "iOS" },
+      { text: "Windows", id: "bright-layer-3", message: "Windows" }
+    ];
+
+    layers.forEach(({ text, id, message }) => {
+      updateDisplay(text, id);
+      attachDownloadHandler(id, message);
+    });
+  }
+  // Event listeners
+  document.addEventListener('DOMContentLoaded', function () {
+    display();
+  });
+</script>
+
+</html>
