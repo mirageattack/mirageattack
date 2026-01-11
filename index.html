@@ -4,362 +4,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mirage Attack: Tricking Agents and Humans with Screenshots</title>
-    <meta name="description" content="Academic project page for Mirage Attack.">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600&family=Inter:wght@400;500&display=swap"
-        rel="stylesheet">
+    <title>Mirage Attack</title>
     <style>
-        :root {
-            --bg-color: #ffffff;
-            --text-color: #333333;
-            --heading-color: #111111;
-            --link-color: #0056b3;
-            --link-hover-color: #003d80;
-            --border-color: #eeeeee;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.7;
-            font-size: 16px;
-        }
-
-        h1,
-        h2,
-        h3,
-        h4 {
-            font-family: 'Crimson Pro', serif;
-            color: var(--heading-color);
-            font-weight: 600;
-            margin-bottom: 0.8em;
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            line-height: 1.2;
-            margin-bottom: 1rem;
-        }
-
-        h2 {
-            font-size: 1.8rem;
-            margin-top: 2rem;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 0.5rem;
-        }
-
-        h3 {
-            font-size: 1.3rem;
-            margin-top: 1.5rem;
-        }
-
-        a {
-            color: var(--link-color);
-            text-decoration: none;
-            border-bottom: 1px solid transparent;
-            transition: border-color 0.2s;
-        }
-
-        a:hover {
-            border-bottom-color: var(--link-hover-color);
-            color: var(--link-hover-color);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #fff;
+            color: #333;
         }
 
         .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 24px;
-        }
-
-        /* Header / Nav */
-        header {
-            padding: 40px 0 60px 0;
             text-align: center;
         }
 
-        .meta-info {
-            font-size: 1rem;
-            color: #666;
-            margin-bottom: 24px;
-        }
-
-        .buttons {
-            display: flex;
-            justify-content: center;
-            gap: 16px;
-            margin-top: 24px;
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 8px 16px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            color: #444;
-            font-size: 0.9rem;
-            transition: all 0.2s;
-        }
-
-        .btn:hover {
-            background-color: #f5f5f5;
-            color: #000;
-            border-color: #ccc;
-        }
-
-        .btn-primary {
-            background-color: #333;
-            color: #fff;
-            border-color: #333;
-        }
-
-        .btn-primary:hover {
-            background-color: #000;
-            border-color: #000;
-            color: #fff;
-        }
-
-        /* Abstract */
-        .abstract {
-            background-color: #f9f9f9;
-            padding: 24px;
-            border-radius: 4px;
-            margin-bottom: 40px;
-            font-size: 0.95rem;
-            text-align: justify;
-        }
-
-        .abstract-title {
+        h1 {
+            font-size: 2rem;
             font-weight: 600;
-            display: block;
-            margin-bottom: 8px;
-            color: #000;
-            font-family: 'Inter', sans-serif;
-            text-transform: uppercase;
-            font-size: 0.85rem;
-            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
         }
 
-        /* Figure Styles */
-        .figure {
-            margin: 40px 0;
-            text-align: center;
-            background: #fff;
-            padding: 20px;
-            border: 1px solid #eaeaea;
-        }
-
-        .figure-caption {
-            margin-top: 12px;
-            font-size: 0.9rem;
+        p {
             color: #666;
-            font-style: italic;
-        }
-
-        .demo-container {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-
-        .demo-box {
-            width: 280px;
-            height: 200px;
-            border: 1px solid #ccc;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            background: #fff;
-            position: relative;
-        }
-
-        /* Demo Functionality (Simplified visual) */
-        .screen-view {
-            background-color: #fff;
-        }
-
-        /* Using a subtle grey to represent "pattern" that is visible on HDR but lost in sRGB */
-        .screen-view .secret-content {
-            font-size: 4rem;
-            color: #f0f0f0;
-            /* Very light grey, visible on good screens, implies "high brightness" difference in paper context */
-            text-shadow: 0 0 1px #e0e0e0;
-            font-weight: bold;
-        }
-
-        .screenshot-view {
-            background-color: #fff;
-        }
-
-        .screenshot-view .secret-content {
-            display: none;
-        }
-
-        .label {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            font-size: 0.75rem;
-            background: #eee;
-            padding: 2px 6px;
-            border-radius: 2px;
-            color: #555;
-        }
-
-        /* Section Content */
-        .section-content {
-            margin-bottom: 40px;
-        }
-
-        ul {
-            list-style-type: square;
-            margin-left: 24px;
-            margin-bottom: 16px;
-        }
-
-        li {
-            margin-bottom: 8px;
-        }
-
-        strong {
-            color: #000;
-            font-weight: 600;
-        }
-
-        /* Footer */
-        footer {
-            margin-top: 80px;
-            padding-top: 20px;
-            border-top: 1px solid #eee;
-            font-size: 0.85rem;
-            color: #888;
-            text-align: center;
         }
     </style>
 </head>
 
 <body>
-
     <div class="container">
-        <header>
-            <h1>Mirage Attack: Tricking Agents and Humans with Screenshots</h1>
-            <div class="meta-info">
-                <!-- Placeholder authors, can be updated based on paper if needed -->
-                <p><strong>Paper ID:</strong> [From PDF]</p>
-            </div>
-            <div class="buttons">
-                <!-- <a href="paper.pdf" class="btn btn-primary">Download PDF</a> -->
-                <span class="btn" style="color: #999; border-color: #eee; cursor: not-allowed;">Paper (Coming
-                    Soon)</span>
-                <a href="#demo" class="btn">View Interactive Demo</a>
-            </div>
-        </header>
-
-        <div class="abstract">
-            <span class="abstract-title">Abstract</span>
-            <p>
-                Implicitly trusted as the immutable ground truth of digital reality, screenshots faithfully capture the
-                exact state of a user interface. This reliability renders them indispensable across diverse workflows.
-                However, we reveal that this trusted bridge has fractured due to a widening technological decoupling
-                between high dynamic range (HDR) display hardware and legacy screenshot software (e.g., sRGB). We
-                uncover a critical vulnerability: <strong>visual signals rendered in the extended range are irreversibly
-                    flattened during capture</strong>. Building on this, we propose the <em>Mirage Attack</em>, which
-                exploits this discrepancy to deceive both AI agents and human users. Our evaluation demonstrates
-                significant threats to GUI Agents and online interview integrity, while also proposing a novel defensive
-                application: <em>MirageCAPTCHA</em>.
-            </p>
-        </div>
-
-        <section id="demo" class="section-content">
-            <h2>Demonstration</h2>
-            <p>
-                The core principle of the Mirage Attack exploits the difference between what is physically displayed on
-                an HDR screen and what is mathematically captured by the OS.
-            </p>
-
-            <div class="figure">
-                <div class="demo-container">
-                    <div class="demo-box screen-view">
-                        <span class="label">Figure 1(a): Human View (HDR)</span>
-                        <span class="secret-content">♥</span>
-                        <p style="margin-top: 60px; font-size: 0.8rem; color: #999;">(Pattern Visible)</p>
-                    </div>
-                    <div class="demo-box screenshot-view">
-                        <span class="label">Figure 1(b): Screenshot (sRGB)</span>
-                        <!-- Content invisible -->
-                        <p style="margin-top: 60px; font-size: 0.8rem; color: #999;">(Pattern Vanished)</p>
-                    </div>
-                </div>
-                <div class="figure-caption">
-                    Figure 1: Illustration of the Mirage Attack. The heart pattern rendered with specific luminance
-                    values is visible to the human eye on an HDR display but disappears completely in the standard
-                    screenshot.
-                </div>
-            </div>
-        </section>
-
-        <section id="mechanism" class="section-content">
-            <h2>Mechanism</h2>
-            <p>
-                The vulnerability stems from the rigid 8-bit integer pipeline of legacy screenshot subsystems (GDI,
-                CoreGraphics) which are calibrated to the sRGB standard. Modern displays supporting Rec.2020 and high
-                nit brightness render content that exists outside this captured range.
-            </p>
-            <h3>Implementation Challenges</h3>
-            <ul>
-                <li><strong>(C1) Visual Consistency:</strong> We devise <em>Dual Display Modes</em> (Bright Mode & Dark
-                    Mode) to ensure the hidden content blends seamlessly into the UI on the physical screen while
-                    vanishing in the capture.</li>
-                <li><strong>(C2) Hardware Heterogeneity:</strong> We introduce the <em>Mirage Adaptation</em> mechanism
-                    to approximate the unknown tone-mapping functions of diverse displays.</li>
-            </ul>
-        </section>
-
-        <section id="impact" class="section-content">
-            <h2>Impact Analysis</h2>
-
-            <h3>Threat to AI Agents</h3>
-            <p>
-                We evaluated 5 GUI Agents (e.g., ChatGPT CUA) and 2 Commercial Browser Agents. The attack caused task
-                success rates to drop precipitously (e.g., from <strong>84.2%</strong> to <strong>11.7%</strong> for GUI
-                Agents), forcing agents into prolonged reasoning loops due to conflicting visual data.
-            </p>
-
-            <h3>Deception in Human Workflows</h3>
-            <p>
-                In our <em>MirageCheating</em> study, candidates used the attack to view cheat sheets during interviews.
-                The hidden content captured by the screenshot tool was blank, rendering the cheating behavior virtually
-                undetectable to remote interviewers.
-            </p>
-
-            <h3>Defensive Application: MirageCAPTCHA</h3>
-            <p>
-                By inverting the attack logic, we created <em>MirageCAPTCHA</em>. It presents challenges that are
-                visible to humans on HDR screens but invisible to multimodal AI solvers (e.g., GPT-4o, Claude Sonnet).
-            </p>
-        </section>
-
-        <footer>
-            <p>
-                © 2026 Mirage Attack Project. <br>
-                <!-- <a href="paper.pdf">Paper</a> &nbsp;&bull;&nbsp; -->
-                <a href="#">Code (Coming Soon)</a> &nbsp;&bull;&nbsp;
-                <a href="#">BibTeX</a>
-            </p>
-        </footer>
+        <h1>Mirage Attack</h1>
+        <p>Coming Soon</p>
     </div>
-
 </body>
 
 </html>
